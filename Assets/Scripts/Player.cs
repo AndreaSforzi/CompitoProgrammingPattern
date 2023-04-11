@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class Player : MonoBehaviour
 
     Vector2 _nextPosition;
     [SerializeField] LayerMask wallMask;
-    
 
+    Animator _animator;
     int _pointsCounter;
 
     public int Points
@@ -30,6 +31,8 @@ public class Player : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+
+        _animator = gameObject.GetComponent<Animator>();
     }
 
     
@@ -68,5 +71,11 @@ public class Player : MonoBehaviour
     private void Move(Vector2 newPosition)
     {
         gameObject.GetComponent<Rigidbody2D>().MovePosition(newPosition);
+    }
+
+    public void Die()
+    {
+        _animator.SetTrigger("Die");
+        GameManager.instance.GetComponent<AudioSource>().Stop();
     }
 }

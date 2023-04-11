@@ -7,6 +7,7 @@ internal class PlayerTurnState : State
 {
     private GameManager gameManager;
     bool _currentTurnEnded;
+    GameStateType turn = GameStateType.PlayerTurn;
 
     public PlayerTurnState(GameManager gameManager)
     {
@@ -16,6 +17,7 @@ internal class PlayerTurnState : State
     public override void Enter()
     {
         _currentTurnEnded = false;
+        gameManager.lastTurn = turn;
     }
 
     public override void Update()
@@ -27,7 +29,7 @@ internal class PlayerTurnState : State
 
 
         if (_currentTurnEnded)
-            gameManager.stateMachine.SetState(GameStateType.EnemiesTurn);
+            gameManager.stateMachine.SetState(GameStateType.MidTurn);
 
     }
 }

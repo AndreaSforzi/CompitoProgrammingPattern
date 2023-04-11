@@ -3,6 +3,7 @@
     private GameManager gameManager;
     bool _currentTurnEnded;
     int _enemyToMove;
+    GameStateType turn = GameStateType.EnemiesTurn;
 
     public EnemiesTurnState(GameManager gameManager)
     {
@@ -13,6 +14,7 @@
     {
         _enemyToMove = 0;
         _currentTurnEnded = false;
+        gameManager.lastTurn = turn;
     }
 
     public override void Update()
@@ -25,7 +27,7 @@
         }
 
         if (_currentTurnEnded)
-            gameManager.stateMachine.SetState(GameStateType.PlayerTurn);
+            gameManager.stateMachine.SetState(GameStateType.MidTurn);
 
     }
 }

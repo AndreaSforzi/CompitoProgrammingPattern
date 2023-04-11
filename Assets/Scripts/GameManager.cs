@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public enum GameStateType
 {
     PlayerTurn,
-    EnemiesTurn
+    EnemiesTurn,
+    MidTurn
 }
 
 
@@ -16,13 +17,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public List<Enemy> enemies=new List<Enemy>();
+    public List<Enemy> enemies { get; } = new List<Enemy>();
 
     public StateMachine<GameStateType> stateMachine { get; } = new();
 
     [SerializeField] TextMeshProUGUI pointText;
+    public float timeBetweenTurn = 1;
+    public int  block = 0;
 
-    
+    public GameStateType lastTurn;
 
     private void Awake()
     {
@@ -38,8 +41,10 @@ public class GameManager : MonoBehaviour
         PubSub.Instance.RegisterFunction(MessageType.PointsCollected, OnPointCollected);
         pointText.text = "0";
 
+
         stateMachine.RegisterState(GameStateType.PlayerTurn, new PlayerTurnState(this));
         stateMachine.RegisterState(GameStateType.EnemiesTurn, new EnemiesTurnState(this));
+        stateMachine.RegisterState(GameStateType.MidTurn, new MidTurnState(this));
         stateMachine.SetState(GameStateType.PlayerTurn);
 
         
@@ -58,5 +63,12 @@ public class GameManager : MonoBehaviour
 
         pointText.text = content.ToString();
     }
+
+    public void LoadLevel(Scene sceneToLoad)
+    {
+        SceneManager.LoadScene(sceneToLoad.name);
+    }
+
+    
 }
 
