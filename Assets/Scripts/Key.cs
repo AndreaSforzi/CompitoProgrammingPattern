@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Key : MonoBehaviour
 {
+    public DoorType doorTypeToOpen;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<Player>())
         {
-            gameObject.GetComponentInParent<AudioSource>().Play();
-            gameObject.GetComponentInParent<Door>().Open();        
-            Destroy(gameObject);
+            gameObject.GetComponent<AudioSource>().Play();
+            PubSub.Instance.SendMessage(MessageType.KeyCollected, this);     
+            Destroy(gameObject, gameObject.GetComponent<AudioSource>().clip.length);
         }
     }
 }

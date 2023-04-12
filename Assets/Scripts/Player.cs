@@ -6,13 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public static Player Instance;
 
-    Vector2 _nextPosition;
     [SerializeField] LayerMask wallMask;
 
+    Vector2 _nextPosition;
+
     Animator _animator;
+
     int _pointsCounter;
+
+    bool _alive = true;
 
     public int Points
     {
@@ -27,10 +30,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        GameManager.instance.player = this;
 
         PubSub.Instance.RegisterFunction(MessageType.Die, OnDie);
 
@@ -41,6 +41,9 @@ public class Player : MonoBehaviour
 
     public bool HandleMovement()
     {
+        if (!_alive)
+            return false;
+
         InputManager();
 
         if (_nextPosition != Vector2.zero)
@@ -78,6 +81,7 @@ public class Player : MonoBehaviour
     public void OnDie(object content)
     {
         _animator.SetTrigger("Die");
+        _alive = false;
         GameManager.instance.GetComponent<AudioSource>().Stop();
     }
 

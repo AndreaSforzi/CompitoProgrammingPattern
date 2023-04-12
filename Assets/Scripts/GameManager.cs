@@ -18,17 +18,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public List<Enemy> enemies { get; } = new List<Enemy>();
 
     public StateMachine<GameStateType> stateMachine { get; } = new();
 
     [SerializeField] TextMeshProUGUI pointText;
+    public TextMeshProUGUI blockText;
+
     public float timeBetweenTurn = 1;
-    public int  block = 0;
 
-    public List<Scene> levels;
+    public List<Enemy> enemies { get; } = new List<Enemy>();
+    [HideInInspector] public Player player;
 
-    public GameStateType lastTurn;
+    [HideInInspector] public int  block = 0;
+    [HideInInspector] public GameStateType lastTurn;
 
     private void Awake()
     {

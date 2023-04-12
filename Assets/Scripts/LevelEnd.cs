@@ -11,7 +11,8 @@ public class LevelEnd : MonoBehaviour
         if (collision.gameObject.GetComponent<Player>())
         {
             gameObject.GetComponent<AudioSource>().Play();
-            Application.Quit();
+
+            UnityEditor.EditorApplication.isPlaying = false;
         }
     }
 }

@@ -6,6 +6,7 @@ using TMPro;
 public class Chest : MonoBehaviour
 {
     [SerializeField] int pointsToGive=0;
+
     Animator _animator;
     TextMeshPro textMesh;
 

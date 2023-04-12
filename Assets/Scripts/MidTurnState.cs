@@ -4,7 +4,6 @@ internal class MidTurnState : State
 {
     private GameManager gameManager;
     float timeForNextTurn=0;
-    float timeForNextTurnPassed = 0;
 
     public MidTurnState(GameManager gameManager)
     {
@@ -28,11 +27,15 @@ internal class MidTurnState : State
         {
             if(gameManager.block>0)
             {
-                gameManager.block--;
                 gameManager.stateMachine.SetState(GameStateType.PlayerTurn);
+                gameManager.blockText.text = gameManager.block.ToString();
+                gameManager.block--;
             }
             else
+            {
+                gameManager.blockText.text = "";
                 gameManager.stateMachine.SetState(GameStateType.EnemiesTurn);
+            }
         }
         else
             gameManager.stateMachine.SetState(GameStateType.PlayerTurn);

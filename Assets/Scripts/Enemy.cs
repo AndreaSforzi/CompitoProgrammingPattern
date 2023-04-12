@@ -9,14 +9,11 @@ public class Enemy : MonoBehaviour
 
     List<Vector2> _directions;
 
-    // Start is called before the first frame update
     void Start()
     {
         GameManager.instance.enemies.Add(this);
         ResetDirections();
     }
-
-    
 
 
     public bool HandleMovement()
@@ -47,7 +44,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<Player>())
+        if (collision.gameObject.GetComponent<Player>() && GameManager.instance.block<=0)
         {
             PubSub.Instance.SendMessage(MessageType.Die, this);
         }

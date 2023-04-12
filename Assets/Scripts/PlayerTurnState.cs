@@ -22,10 +22,8 @@ internal class PlayerTurnState : State
 
     public override void Update()
     {
-        if (Player.Instance.HandleMovement())
+        if (gameManager.player.HandleMovement())
             _currentTurnEnded = true;
-
-
 
 
         if (_currentTurnEnded)
