@@ -6,8 +6,7 @@ using UnityEngine;
 public enum MessageType
 {
     PointsCollected,
-    LevelEnded,
-    Died
+    Die
 }
 
 public class PubSub : MonoBehaviour

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI pointText;
     public float timeBetweenTurn = 1;
     public int  block = 0;
+
+    public List<Scene> levels;
 
     public GameStateType lastTurn;
 
@@ -54,6 +57,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         stateMachine.StateUpdate();
+        
     }
 
     void OnPointCollected(object content)

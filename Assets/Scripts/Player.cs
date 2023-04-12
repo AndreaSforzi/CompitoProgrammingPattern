@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
         else
             Destroy(gameObject);
 
+        PubSub.Instance.RegisterFunction(MessageType.Die, OnDie);
+
         _animator = gameObject.GetComponent<Animator>();
     }
 
@@ -73,9 +75,14 @@ public class Player : MonoBehaviour
         gameObject.GetComponent<Rigidbody2D>().MovePosition(newPosition);
     }
 
-    public void Die()
+    public void OnDie(object content)
     {
         _animator.SetTrigger("Die");
         GameManager.instance.GetComponent<AudioSource>().Stop();
+    }
+
+    public void OnDieAnimationEnd()
+    {
+        GameManager.instance.LoadLevel(SceneManager.GetActiveScene());
     }
 }

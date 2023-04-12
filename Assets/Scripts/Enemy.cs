@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         GameManager.instance.enemies.Add(this);
-        _directions = new List<Vector2>() { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
+        ResetDirections();
     }
 
     
@@ -36,16 +36,20 @@ public class Enemy : MonoBehaviour
         }
 
         gameObject.GetComponent<Rigidbody2D>().MovePosition(_nextPosition);
-        _directions = new List<Vector2>() { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
+        ResetDirections();
         return true;
 
+    }
+    void ResetDirections()
+    {
+        _directions = new List<Vector2>() { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<Player>())
         {
-            collision.gameObject.GetComponent<Player>().Die();
+            PubSub.Instance.SendMessage(MessageType.Die, this);
         }
     }
 }
